@@ -2,7 +2,7 @@ import argparse
 import os
 import csv
 import json
-from utils import preprocess_text, post_process_text
+from utils import preprocess_text, post_process_text, process_all_data
 from huggingface_hub import hf_hub_download
 
 # logger
@@ -150,9 +150,10 @@ if __name__ == "__main__":
     )
 
     # load dataset
-    preprocessed_data = 'dawn_pakistan_processed.json'
+    preprocessed_data = 'dawn_pakistan.json'
     with open(preprocessed_data) as f:
       dataset = json.load(f)
+    dataset = process_all_data(dataset)
     
     logger.info("Generating QA using Llama2")
     create_qa(dataset, text_splitter)
