@@ -1,0 +1,16 @@
+Pakistan, officially the Islamic Republic of Pakistan, is a country in South Asia.
+It is the fifth-most populous country, with a population of over 241.5 million, having the second-largest Muslim population as of 2023.
+Islamabad is the nation's capital, while Karachi is its largest city and financial centre.
+
+
+Karachi is the capital city of the Pakistani province of Sindh.
+It is the largest city in Pakistan and the 12th largest in the world, 
+with a population of over 20 million.
+It is situated at the southern tip of the country along the Arabian Sea 
+coast and formerly served as the capital of Pakistan
+
+
+LangChain is a framework designed to simplify the creation of applications using large language models.
+As a language model integration framework,
+LangChain's use-cases largely overlap with those of language models in general,
+including document analysis and summarization, chatbots, and code analysis.
