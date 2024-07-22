@@ -74,6 +74,15 @@ def create_qa(dataset, text_splitter):
       # split into 500 chars with 0 overlap
       chunks_list = text_splitter.split_text(text)
 
+# llama2 llm
+def llama2(prompt):
+    # language model processing logic
+    response = lcpp_llm(prompt=prompt, max_tokens=256, temperature=0.4, top_p=0.95,
+                  repeat_penalty=1.2, top_k=150,
+                  echo=False)
+    llm_completion = response["choices"][0]["text"]  # Retrieving generated text only
+
+    return llm_completion
 
 def main(args):
   pass
@@ -108,8 +117,7 @@ if __name__ == "__main__":
       text = file.read()
     
     paragraphs = text.split("\n\n")
-    first_paragraph = paragraphs[0] if len(paragraphs) > 0 else ""
-
+    text = paragraphs[0] if len(paragraphs) > 0 else ""
 
     # prompt template
     prompt_template=f'''SYSTEM: You are a helpful, respectful and honest assistant for QA data acquisition.
@@ -122,6 +130,34 @@ if __name__ == "__main__":
 
     ASSISTANT:
     '''
+    
+    # Invoke the Llama2 for generation
+    response=lcpp_llm(prompt=prompt_template, max_tokens=256, temperature=0.5, top_p=0.95,
+                  repeat_penalty=1.2, top_k=150,
+                  echo=False)
+    
+    # sample response 
+    print(response["choices"][0]["text"])
+
+    # Define text splitter
+    from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+    text_splitter = RecursiveCharacterTextSplitter(
+        chunk_size=500, 
+        chunk_overlap=0,
+        length_function=len,
+        is_separator_regex=False,
+    )
+
+    # load dataset
+    preprocessed_data = 'dawn_pakistan_processed.json'
+    with open(preprocessed_data) as f:
+      dataset = json.load(f)
+    
+    logger.info("Generating QA using Llama2")
+    create_qa(dataset, text_splitter)
+
+    
 
 
 
