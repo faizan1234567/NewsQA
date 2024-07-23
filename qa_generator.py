@@ -5,7 +5,7 @@ import json
 from utils import preprocess_text, post_process_text, process_all_data
 from huggingface_hub import hf_hub_download
 
-# logger
+# Logger
 import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
