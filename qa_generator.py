@@ -360,7 +360,6 @@ if __name__ == "__main__":
     QAG(dataset, text_splitter)
 
   elif opt.model == "GPT-3.5Turbo":
-    api_key = ""
     system_requirements = "You are a helpful and honest assistant for QA pairs generation."
     # prompt
     prompt = f"""
