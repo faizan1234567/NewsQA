@@ -175,3 +175,29 @@ def qa_generator(text):
   logger.info(generated_text)
   # process the completion and write the qa pairs in a csv file
   post_process_text(generated_text)
+
+
+def qag_generator(text):
+  '''
+  generate question answer and store them in a csv file
+
+  parameters
+  ----------
+  text: str
+  '''
+  question_answer_pairs = model.generate_qa(text)
+  # logger.info(question_answer_pairs)
+
+  # write to csv file
+  file_path = 'qa_pairs_new_t5_small.csv'
+
+  if not os.path.exists(file_path):
+      with open(file_path, 'w', newline='', encoding='utf-8') as file:
+          writer = csv.writer(file)
+          # Write header row
+          writer.writerow(['Question', 'Answer'])
+
+  # append data
+  with open(file_path, 'a', newline='', encoding='utf-8') as file:
+      writer = csv.writer(file)
+      writer.writerows(question_answer_pairs)

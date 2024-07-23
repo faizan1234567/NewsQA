@@ -3,4 +3,6 @@ numpy==1.23.4 --force-reinstall --upgrade --no-cache-dir --verbose
 huggingface_hub
 llama-cpp-python==0.1.78
 numpy==1.23.4
--qU langchain-text-splitters
+langchain-text-splitters
+lmqg
+openai
