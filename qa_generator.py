@@ -1,3 +1,10 @@
+"""
+===========================================
+Generate News QA dataset to finetune an LLM 
+
+python qa_generator.py -h
+===========================================
+"""
 import argparse
 import warnings
 warnings.filterwarnings("ignore")
@@ -11,7 +18,7 @@ from lmqg import TransformersQG
 import pandas as pd
 from openai import OpenAI
 
-# Logger
+# Configure logger (stream handler)
 import logging
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
@@ -37,9 +44,9 @@ class SuppressOutput:
         sys.stdout = self._original_stdout
         sys.stderr = self._original_stderr
 
-# llama2 llm
+
 def llama2(prompt):
-    # language model processing logic
+    '''genarate text given prompt'''
     response = lcpp_llm(prompt=prompt, max_tokens=256, temperature=0.4, top_p=0.95,
                   repeat_penalty=1.2, top_k=150,
                   echo=False)
@@ -56,18 +63,16 @@ def qag_generator(text):
   text: str
   '''
   question_answer_pairs = model.generate_qa(text)
-  # logger.info(question_answer_pairs)
 
-  # write to csv file
+  # Write to csv file
   file_path = 'qa_pairs_new_t5_small.csv'
 
   if not os.path.exists(file_path):
       with open(file_path, 'w', newline='', encoding='utf-8') as file:
           writer = csv.writer(file)
-          # Write header row
           writer.writerow(['Question', 'Answer'])
 
-  # append data
+  # Append data
   with open(file_path, 'a', newline='', encoding='utf-8') as file:
       writer = csv.writer(file)
       writer.writerows(question_answer_pairs)
@@ -86,29 +91,19 @@ def QAG(dataset, text_splitter):
   ------
   None
   """
-  # iterate over all the json entries
   for data in dataset:
-    # don't process articles that have already been explored by llm
+    # Don't process articles that have already been explored by llm
     if 'processed_article' in data.keys():
       if data['processed_article']:
         logger.info('News article already processed!')
     else:
-      # reterive text
       text = data['text']
-      # chunk the text as the text is bit longer in each article
-      # longer text takes time and llm context window can't process all at once becasue of limited context size for some llm
-      # split into 500 chars with 0 overlap
       chunks_list = text_splitter.split_text(text)
 
-      # iterate over each chunk
       for text_chunk in chunks_list:
-        # genrate qa
+        # Generate QA
         qag_generator(text_chunk)
-      # this flag helps identify the articles already processed by an llm
-      # so we don't repeat it again.
       data['processed_article'] = True
-      # overwrite the update json file, so next time read this file when notebook crahes and doing
-      # processing again
       with open('dawn_pakistan_processed_t5_small', 'w') as file:
         json.dump(dataset, file, indent = 4)
 
@@ -132,13 +127,9 @@ def qa_generator(text):
     Generate your own questions from the context below and then generate answers from the text for each question
     you generated.
   '''
-  # complte prompt: text ingested in the prompt
+
   prompt_template = prompt + f"\n\nUSER: {text} \n\nASSITANT:"
-  # invoke llm (llama2)
   generated_text = llama2(prompt_template)
-  # logg model completion for now
-  # logger.info(generated_text)
-  # process the completion and write the qa pairs in a csv file
   post_process_text(generated_text)
 
 def create_qa(dataset, text_splitter):
@@ -307,7 +298,7 @@ def generate_qa_gpt(dataset, text_splitter):
       with open('dawn_pakistan_processed_recent_gpt35', 'w') as file:
         json.dump(dataset, file, indent = 4)
 
-# TODO: test each of qa generator
+# TODO: 2 tests passed (1 to check)
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument(
@@ -424,9 +415,9 @@ if __name__ == "__main__":
               return response.choices[0].message.content
           except Exception as e:
               return f"An error occurred: {e}"
-
-      response = GPT35Turbo(prompt, model, system_requirements)
-      print(response)
+      if print_response:
+        response = GPT35Turbo(prompt, model, system_requirements)
+        print(response)
     generate_qa_gpt(dataset, text_splitter)
   
 
