@@ -2,6 +2,7 @@ import argparse
 import os
 import csv
 import json
+import sys
 from utils import preprocess_text, post_process_text, process_all_data
 from huggingface_hub import hf_hub_download
 from lmqg import TransformersQG
@@ -20,6 +21,29 @@ stream_handler.setFormatter(formatter)
 logger.addHandler(stream_handler)
 
 
+# Suppress output
+class SuppressOutput:
+    def __enter__(self):
+        self._original_stdout = sys.stdout
+        self._original_stderr = sys.stderr
+        sys.stdout = open(os.devnull, 'w')
+        sys.stderr = open(os.devnull, 'w')
+
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        sys.stdout.close()
+        sys.stderr.close()
+        sys.stdout = self._original_stdout
+        sys.stderr = self._original_stderr
+
+# llama2 llm
+def llama2(prompt):
+    # language model processing logic
+    response = lcpp_llm(prompt=prompt, max_tokens=256, temperature=0.4, top_p=0.95,
+                  repeat_penalty=1.2, top_k=150,
+                  echo=False)
+    llm_completion = response["choices"][0]["text"]  # Retrieving generated text only
+
+    return llm_completion
 
 def qag_generator(text):
   '''
@@ -154,15 +178,7 @@ def create_qa(model, dataset, text_splitter):
       with open('dawn_pakistan_processed', 'w') as file:
         json.dump(dataset, file, indent = 4)
 
-# llama2 llm
-def llama2(prompt):
-    # language model processing logic
-    response = lcpp_llm(prompt=prompt, max_tokens=256, temperature=0.4, top_p=0.95,
-                  repeat_penalty=1.2, top_k=150,
-                  echo=False)
-    llm_completion = response["choices"][0]["text"]  # Retrieving generated text only
 
-    return llm_completion
 
 def gpt_turbo(text):
   """
@@ -336,13 +352,13 @@ if __name__ == "__main__":
     from llama_cpp import Llama
     logger.info("Download the model")
     model_path = hf_hub_download(repo_id=model_name_or_path, filename=model_basename)
-    lcpp_llm = None
-    lcpp_llm = Llama(
-        model_path=model_path,
-        n_threads=2, # CPU cores
-        n_batch=512,
-        n_gpu_layers=32
-        )
+    with SuppressOutput():
+      lcpp_llm = Llama(
+          model_path=model_path,
+          n_threads=2, # CPU cores
+          n_batch=512,
+          n_gpu_layers=32
+          )
     logger.info(f"Number of GPU layers {lcpp_llm.params.n_gpu_layers}")
 
    
