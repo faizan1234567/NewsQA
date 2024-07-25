@@ -1,4 +1,6 @@
 import argparse
+import warnings
+warnings.filterwarnings("ignore")
 import os
 import csv
 import json
@@ -135,7 +137,7 @@ def qa_generator(text):
   # invoke llm (llama2)
   generated_text = llama2(prompt_template)
   # logg model completion for now
-  logger.info(generated_text)
+  # logger.info(generated_text)
   # process the completion and write the qa pairs in a csv file
   post_process_text(generated_text)
 
