@@ -142,6 +142,17 @@ def create_qa(dataset, text_splitter):
       # longer text takes time and llm context window can't process all at once becasue of limited context size for some llm
       # split into 500 chars with 0 overlap
       chunks_list = text_splitter.split_text(text)
+      # iterate over each chunk
+      for text_chunk in chunks_list:
+        # genrate qa
+        qa_generator(text_chunk)
+      # this flag helps identify the articles already processed by an llm
+      # so we don't repeat it again.
+      data['processed_article'] = True
+      # overwrite the update json file, so next time read this file when notebook crahes and doing
+      # processing again
+      with open('dawn_pakistan_processed', 'w') as file:
+        json.dump(dataset, file, indent = 4)
 
 # llama2 llm
 def llama2(prompt):
@@ -311,8 +322,8 @@ if __name__ == "__main__":
 
   paragraphs = text.split("\n\n")
   text = paragraphs[0] if len(paragraphs) > 0 else ""
-
-
+  
+  # Dont print sample process
   print_response = False
 
   if opt.model == "Llama2":
@@ -347,8 +358,7 @@ if __name__ == "__main__":
     ASSISTANT:
     '''
     
-    # Invoke the Llama2 for generation
-  
+    # Invoke the Llama2 for generation if print_response is true
     if print_response:
       response=lcpp_llm(prompt=prompt_template, max_tokens=256, temperature=0.5, top_p=0.95,
                     repeat_penalty=1.2, top_k=150,
