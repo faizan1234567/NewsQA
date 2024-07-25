@@ -281,7 +281,13 @@ def generate_qa_gpt(dataset, text_splitter):
 # TODO: test each of qa generator
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
-  parser.add_argument("--model", type = str, default = "GPT3.5-Turbo", help= "name of the model")
+  parser.add_argument(
+    "--model",
+    type=str,
+    choices=["GPT3.5-Turbo", "GPT-4", "Llama2", "T5-small"],
+    default="GPT3.5-Turbo",
+    help="name of the model"
+   )
   opt = parser.parse_args()
 
   # load dataset
