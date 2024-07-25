@@ -110,7 +110,7 @@ def QAG(dataset, text_splitter):
       with open('dawn_pakistan_processed_t5_small', 'w') as file:
         json.dump(dataset, file, indent = 4)
 
-def qa_generator(llama2, text):
+def qa_generator(text):
   '''
   takes the paragraph text and generate model completion and then post process the completion
   to generate QA data
@@ -139,7 +139,7 @@ def qa_generator(llama2, text):
   # process the completion and write the qa pairs in a csv file
   post_process_text(generated_text)
 
-def create_qa(model, dataset, text_splitter):
+def create_qa(dataset, text_splitter):
   '''
   run the llm over the json file, and store the respone in a csv file
   if the articles that are published should be marked so they don't be explored again
@@ -169,7 +169,7 @@ def create_qa(model, dataset, text_splitter):
       # iterate over each chunk
       for text_chunk in chunks_list:
         # genrate qa
-        qa_generator(model, text_chunk)
+        qa_generator(text_chunk)
       # this flag helps identify the articles already processed by an llm
       # so we don't repeat it again.
       data['processed_article'] = True
@@ -385,7 +385,7 @@ if __name__ == "__main__":
 
 
     logger.info("Generating QA using Llama2")
-    create_qa(lcpp_llm, dataset, text_splitter)
+    create_qa(dataset, text_splitter)
   
   elif opt.model == "T5-small":
     model = TransformersQG(language='en', model='lmqg/t5-base-squad-qag')
