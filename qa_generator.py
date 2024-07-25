@@ -306,7 +306,7 @@ if __name__ == "__main__":
       is_separator_regex=False,
   )
    # Sample text
-  with open("text_sample.txt", "r", encoding= "utf-8") as file:
+  with open("text_samples.txt", "r", encoding= "utf-8") as file:
     text = file.read()
 
   paragraphs = text.split("\n\n")
