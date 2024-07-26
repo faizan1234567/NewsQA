@@ -147,28 +147,20 @@ def create_qa(dataset, text_splitter):
   ------
   None
   '''
-  # iterate over all the json entries
   for data in dataset:
-    # don't process articles that have already been explored by llm
+    # Don't process articles that have already been explored by llm
     if 'processed_article' in data.keys():
       if data['processed_article']:
         print('News article already processed!')
     else:
-      # reterive text
       text = data['text']
-      # chunk the text as the text is bit longer in each article
-      # longer text takes time and llm context window can't process all at once becasue of limited context size for some llm
-      # split into 500 chars with 0 overlap
       chunks_list = text_splitter.split_text(text)
-      # iterate over each chunk
       for text_chunk in chunks_list:
-        # genrate qa
+        # Genrate qa
         qa_generator(text_chunk)
       # this flag helps identify the articles already processed by an llm
       # so we don't repeat it again.
       data['processed_article'] = True
-      # overwrite the update json file, so next time read this file when notebook crahes and doing
-      # processing again
       with open('dawn_pakistan_processed', 'w') as file:
         json.dump(dataset, file, indent = 4)
 
@@ -217,10 +209,8 @@ def gpt_turbo(text):
 
 def process_save_qa_data(gpt_completion):
   
-  # process respone and save it in a csv file
   qa_list = gpt_completion.split('\n')
 
-  # remove empty items in list
   qa_list_empty_removed = [item for item in qa_list if item]
 
   # keep only quetions and answer and remove anything else
@@ -233,14 +223,11 @@ def process_save_qa_data(gpt_completion):
   else:
         qa_pairs = [(data[i], data[i+1]) for i in range(0, len(data), 2)]
 
-
-  # now save to a csv file
   file_path = 'qa_pairs_gpt35_turbo1.csv'
 
   if not os.path.exists(file_path):
       with open(file_path, 'w', newline='', encoding='utf-8') as file:
           writer = csv.writer(file)
-          # Write header row
           writer.writerow(['Question', 'Answer'])
 
   # append data
