@@ -5,6 +5,7 @@ Generate News QA dataset to finetune an LLM
 python qa_generator.py -h
 ===========================================
 """
+
 import argparse
 import warnings
 warnings.filterwarnings("ignore")
@@ -311,7 +312,7 @@ if __name__ == "__main__":
   opt = parser.parse_args()
 
   # load dataset
-  preprocessed_data = 'dawn_pakistan.json'
+  preprocessed_data = 'dataset/dawn_pakistan.json'
   with open(preprocessed_data) as f:
     dataset = json.load(f)
   dataset = process_all_data(dataset)
@@ -326,7 +327,7 @@ if __name__ == "__main__":
       is_separator_regex=False,
   )
    # Sample text
-  with open("text_samples.txt", "r", encoding= "utf-8") as file:
+  with open("dataset/text_samples.txt", "r", encoding= "utf-8") as file:
     text = file.read()
 
   paragraphs = text.split("\n\n")
