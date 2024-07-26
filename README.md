@@ -1,4 +1,11 @@
 ## News Dataset for QA Generation
+[![Build Status](https://img.shields.io/github/actions/workflow/status/faizan1234567/QALLM/build.yml)](https://github.com/faizan1234567/QALLM/actions)
+[![License](https://img.shields.io/github/license/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/blob/main/LICENSE)
+[![Version](https://img.shields.io/github/v/release/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/releases)
+[![Language](https://img.shields.io/github/languages/top/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM)
+[![Contributors](https://img.shields.io/github/contributors/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/graphs/contributors)
+[![Issues](https://img.shields.io/github/issues/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/issues)
+
 
 This repository contains a large dataset of news articles scraped from various Pakistani news websites. The dataset covers diverse categories including:
 
