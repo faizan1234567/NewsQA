@@ -67,4 +67,3 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 </td>
 </tr>
 </table>
-
