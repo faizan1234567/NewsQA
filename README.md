@@ -57,3 +57,32 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 | What is the population of Karachi?                       | over 20 million                                                   |
 | Where is Karachi located?                                | southern tip of the country along the Arabian Sea coast           |
 
+
+
+<table>
+<tr>
+<th>LLaMA2 QA Table</th>
+<th>T5-small QA Table</th>
+</tr>
+<tr>
+<td>
+
+| Question                                                 | Answer                                  |
+|----------------------------------------------------------|-----------------------------------------|
+| What is Pakistan's official name?                        | Islamic Republic of Pakistan.           |
+| How many people live in Pakistan?                        | Over 241.5 million as of 2023.          |
+| What is the capital of Pakistan?                         | Islamabad.                              |
+| What is the largest city and financial center of Pakistan? | Karachi.                                |
+
+</td>
+<td>
+
+| Question                                                 | Answer                                  |
+|----------------------------------------------------------|-----------------------------------------|
+| What is the capital city of Sindh?                       | Karachi                                 |
+| What is the population of Karachi?                       | over 20 million                         |
+| Where is Karachi located?                                | southern tip of the country along the Arabian Sea coast |
+
+</td>
+</tr>
+</table>
