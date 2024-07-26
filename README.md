@@ -92,3 +92,37 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 ```GPT3.5-Turbo``` and ```GPT4``` generates desired response. 
 ![alt text](https://github.com/faizan1234567/QALLM/blob/main/images/gradio_demo.PNG)
 ***Fig.*** Gradio demo using ```T5-small```
+
+### Installation
+
+```bash
+ git clone https://github.com/faizan1234567/QALLM.git
+ cd QALLM
+```
+
+Create  a virtual enviroment using python venv
+```bash
+python3 -m venv qa_llm
+source qa_llm/bin/activate
+```
+alternatively, you can use anaconda package manager
+```bash
+conda create -n qa_llm python=3.8.10 -y
+conda activate qa_llm
+```
+
+Now install all the required dependencies
+```bash
+pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+### Usage
+QA generation, make sure to read and understand the configs and replace appropriate values as required.
+```bash
+python create_alpaca_format_dataset.py --chunk_size 5000 --dataset <path>
+```
+and run QA generation 
+```bash
+python qa_generator.py --model T5-small --cfg cfg/qa_generator.yaml
+```
