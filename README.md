@@ -56,7 +56,6 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 
 </td>
 <td>
-
 | Question                                                 | Answer                                  |
 |----------------------------------------------------------|-----------------------------------------|
 | What is the capital city of Sindh?                       | Karachi                                 |
