@@ -1,0 +1,15 @@
+# don't push pycache dir or files
+
+__pycache__/
+.vscode/
+
+
+# don't push common file extensions
+*.pdf
+*.docx
+*.pt
+*.pth
+
+# dont push private dirs
+research/
+ideas/
