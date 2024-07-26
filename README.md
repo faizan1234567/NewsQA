@@ -44,7 +44,7 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 
 | Question                                                 | Answer                                  |
 |----------------------------------------------------------|-----------------------------------------|
-| What is Pakistan's official name?                        | Islamic Republic of Pakistan.           |
+| What is Pakistan's official name?                        | Islamic Republic of Pakistan.                              |
 | How many people live in Pakistan?                        | Over 241.5 million as of 2023.          |
 | What is the capital of Pakistan?                         | Islamabad.                              |
 | What is the largest city and financial center of Pakistan? | Karachi.                                |
