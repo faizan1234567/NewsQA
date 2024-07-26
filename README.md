@@ -39,9 +39,8 @@ This dataset is open-source and can be used for:
 Additionally, we have fine-tuned Tiny Llama on this dataset.
 
 ### QA Generated Dataset Examples
-## QA Tables
 
-### LLaMA2 QA Table
+#### LLaMA2 QA Table
 
 | Question                                               | Answer                                |
 |--------------------------------------------------------|---------------------------------------|
@@ -50,7 +49,7 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 | What is the capital of Pakistan?                       | Islamabad.                            |
 | What is the largest city and financial center of Pakistan? | Karachi.                              |
 
-### T5-small QA Table
+#### T5-small QA Table
 
 | Question                                               | Answer                                                         |
 |--------------------------------------------------------|----------------------------------------------------------------|
