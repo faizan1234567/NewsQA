@@ -62,3 +62,27 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 
 </td></tr>
 </table>
+
+
+<table>
+<tr><th>GPT-3.5-Turbo</th><th>GPT-4</th></tr>
+<tr><td>
+
+| Question                                          | Answer                                          |
+|---------------------------------------------------|-------------------------------------------------|
+| What inspired the founding of LAPS?               | The first rescued animal, a pit bull named Lucky.|
+| How many dogs are currently housed at LAPS?       | Nearly 300 dogs.                                |
+| How many stray animals have been vaccinated by LAPS so far?| Over 5,000 stray animals.                    |
+| How many dogs and cats have been neutered by LAPS?| More than 3,000 dogs and cats.                  |
+
+</td><td>
+
+| Question                                          | Answer                                          |
+|---------------------------------------------------|-------------------------------------------------|
+| What are monopolistic seed companies doing to consumers? | Charging heavy costs.                       |
+| How are farmers being facilitated in operating tube wells? | By using solar energy.                     |
+| What steps are proposed to materialize a green revolution in the country?| Direct fertiliser subsidy, quality seeds supply, and solar-powered tube-wells. |
+| How would the mentioned steps impact productivity?| Productivity would triple in a couple of years. |
+
+</td></tr>
+</table>
