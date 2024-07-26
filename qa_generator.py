@@ -13,6 +13,9 @@ import os
 import csv
 import json
 import sys
+from pathlib import Path
+import yaml
+from cfg import from_dict
 from utils import preprocess_text, post_process_text, process_all_data
 from huggingface_hub import hf_hub_download
 from lmqg import TransformersQG
@@ -277,7 +280,7 @@ def generate_qa_gpt(dataset, text_splitter):
 
 
 if __name__ == "__main__":
-  parser = argparse.ArgumentParser()
+  parser = argparse.ArgumentParser(description="Command Line arguments")
   parser.add_argument(
     "--model",
     type=str,
@@ -285,11 +288,22 @@ if __name__ == "__main__":
     default="GPT3.5-Turbo",
     help="name of the model"
    )
+  
+  parser.add_argument("--cfg", 
+                      type= str, 
+                      choices = ["qa_generator.yaml", "fine_tuning.yaml"], 
+                      default= "cfg/qa_generator.yaml", 
+                      help = "configuration file")
+  
   opt = parser.parse_args()
 
+  # Init config
+  cfg = yaml.safe_load(Path(opt.cfg).open('r'))
+  cfg = from_dict(cfg)  # convert dict
+  
+
   # load dataset
-  preprocessed_data = 'dataset/dawn_pakistan.json'
-  with open(preprocessed_data) as f:
+  with open(cfg.sample_dataset) as f:
     dataset = json.load(f)
   dataset = process_all_data(dataset)
 
@@ -297,20 +311,20 @@ if __name__ == "__main__":
   from langchain_text_splitters import RecursiveCharacterTextSplitter
 
   text_splitter = RecursiveCharacterTextSplitter(
-      chunk_size=500, 
-      chunk_overlap=0,
+      chunk_size=cfg.chunk_size, 
+      chunk_overlap=cfg.chunk_overlap,
       length_function=len,
       is_separator_regex=False,
   )
    # Sample text
-  with open("dataset/text_samples.txt", "r", encoding= "utf-8") as file:
+  with open(cfg.sample_text, "r", encoding= "utf-8") as file:
     text = file.read()
 
   paragraphs = text.split("\n\n")
   text = paragraphs[0] if len(paragraphs) > 0 else ""
   
   # Dont print sample process
-  print_response = False
+  print_response = cfg.print_response
 
   if opt.model == "Llama2":
     logger.info("Loading Llama2 for QA generation")
@@ -375,8 +389,9 @@ if __name__ == "__main__":
 
     here is text: {text}"""
 
-    model = "gpt-3.5-turbo-0125"
-
+    model = cfg.gpt_model
+    # replace by your api key here
+    api_key = cfg.gpt_api_key
     if print_response:
       client = OpenAI(api_key=api_key)
 
@@ -397,9 +412,6 @@ if __name__ == "__main__":
         print(response)
     generate_qa_gpt(dataset, text_splitter)
   
-
-    
-
 
 
     

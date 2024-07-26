@@ -1,0 +1,9 @@
+model: T5-small
+sample_dataset: dataset/dawn_pakistan.json
+dataset: # actual dataset path here
+chunk_size: 500
+chunk_overlap: 10
+sample_text: dataset/text_samples.txt
+print_response: False
+gpt_model: gpt-3.5-turbo-0125
+gpt_api_key:   # private (don't push to git)
