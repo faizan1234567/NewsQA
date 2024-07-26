@@ -58,7 +58,7 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 | What is the capital city of Sindh?                       | Karachi                                 |
 | What is the population of Karachi?                       | over 20 million                         |
 | Where is Karachi located?                                | southern tip of the country along the Arabian Sea coast |
-|                                                          |                                         |
+| What is the capital city of Pakistan?                    | Islamabad                               |
 
 </td></tr>
 </table>
