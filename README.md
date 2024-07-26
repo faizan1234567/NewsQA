@@ -88,4 +88,6 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 </table>
 
 ```GPT3.5-Turbo``` and ```GPT4``` generates desired response. 
+![alt text](https://github.com/faizan1234567/QALLM/blob/main/images/gradio_demo.PNG)
 
+Gradio demo
