@@ -29,7 +29,7 @@ We evaluated several large language models (LLMs) for generating question-answer
 
 ### Findings and Dataset
 
-Our case study revealed that while Llama2 offers the best quality, it is slower compared to GPT models. T5-small, though fast, has limitations in accuracy and duplication. Consequently, we used GPT-3.5 Turbo and GPT-4 to generate a more substantial dataset.
+Our case study revealed that while Llama2 offers the best quality, it is slower compared to GPT models. ```T5-small```, though fast, has limitations in accuracy and duplication. Consequently, we used ```GPT-3.5 Turbo``` and ```GPT-4``` to generate a more substantial dataset.
 
 This dataset is open-source and can be used for:
 
@@ -86,3 +86,6 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 
 </td></tr>
 </table>
+
+```GPT3.5-Turbo``` and ```GPT4``` generates desired response. 
+
