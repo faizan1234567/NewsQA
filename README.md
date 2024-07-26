@@ -41,12 +41,8 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 ### QA Generated Dataset Examples
 
 <table>
-<tr>
-<th>LLaMA2</th>
-<th>T5-small</th>
-</tr>
-<tr>
-<td>
+<tr><th>LLaMA2</th><th>T5-small</th></tr>
+<tr><td>
 
 | Question                                                 | Answer                                  |
 |----------------------------------------------------------|-----------------------------------------|
@@ -55,8 +51,7 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 | What is the capital of Pakistan?                         | Islamabad.                              |
 | What is the largest city and financial center of Pakistan? | Karachi.                                |
 
-</td>
-<td>
+</td><td>
 
 | Question                                                 | Answer                                  |
 |----------------------------------------------------------|-----------------------------------------|
@@ -64,6 +59,5 @@ Additionally, we have fine-tuned Tiny Llama on this dataset.
 | What is the population of Karachi?                       | over 20 million                         |
 | Where is Karachi located?                                | southern tip of the country along the Arabian Sea coast |
 
-</td>
-</tr>
+</td></tr>
 </table>
