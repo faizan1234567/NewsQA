@@ -216,10 +216,8 @@ def gpt_turbo(text):
 
 
 def process_save_qa_data(gpt_completion):
+  
   # process respone and save it in a csv file
-
-  # split question and answers
-  # logger.info(f'completion: {gpt_completion}')
   qa_list = gpt_completion.split('\n')
 
   # remove empty items in list
@@ -252,7 +250,6 @@ def process_save_qa_data(gpt_completion):
 
 
 
-# now writing a function to write the response in csv file.
 def generate_qa_gpt(dataset, text_splitter):
   """
   run over the json file and store them in a csv, and use gpt3.5 turbo for qa generation
@@ -266,23 +263,17 @@ def generate_qa_gpt(dataset, text_splitter):
   ------
   None
   """
-  # iterate over all the json entries
   for data in dataset:
-    # don't process articles that have already been explored by llm
     if 'processed_article' in data.keys():
       if data['processed_article']:
         logger.info('News article already processed!')
     else:
       # reterive text
       text = data['text']
-      # chunk the text as the text is bit longer in each article
-      # longer text takes time and llm context window can't process all at once becasue of limited context size for some llm
-      # split into 500 chars with 0 overlap
       chunks_list = text_splitter.split_text(text)
 
       # iterate over each chunk
       for text_chunk in chunks_list:
-        # genrate qa
         completion = gpt_turbo(text_chunk)
         if completion.startswith("An error occurred"):
           pass
@@ -293,13 +284,11 @@ def generate_qa_gpt(dataset, text_splitter):
         # so we don't repeat it again.
       data['processed_article'] = True
       logger.info('An article has been processed!!')
-        # overwrite the update json file, so next time read this file when notebook crahes and doing
-        # processing again, if noteobook crashes adn you have to restart, please use the file below
-        # use 'dawn_pakistan_processed_recent_gpt35' as starting point.
+      
       with open('dawn_pakistan_processed_recent_gpt35', 'w') as file:
         json.dump(dataset, file, indent = 4)
 
-# TODO: 2 tests passed (1 to check)
+
 if __name__ == "__main__":
   parser = argparse.ArgumentParser()
   parser.add_argument(
