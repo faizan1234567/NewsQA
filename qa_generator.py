@@ -291,7 +291,7 @@ if __name__ == "__main__":
   
   parser.add_argument("--cfg", 
                       type= str, 
-                      choices = ["qa_generator.yaml", "fine_tuning.yaml"], 
+                      choices = ["cfg/qa_generator.yaml", "cfg/fine_tuning.yaml"], 
                       default= "cfg/qa_generator.yaml", 
                       help = "configuration file")
   
