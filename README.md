@@ -140,6 +140,16 @@ if you find the dataset useful for fine-tuning, research, and development purpos
 }
 ```
 
+## ToDo
+- [x] QA dataset generation using Llama2 and T5-small
+- [x] QA dataset generation using GPT-3.5 Turbo and GPT4
+- [x] Scrapping News articles from Pakistan based News channels
+- [x] Creating a Large fine-tuning dataset in Alpaca format
+- [x] Add installation / virtual environment instructions
+- [ ] fine-tuing Tiny-llama, Mistral, and Llama3 on generated dataset
+- [ ] Evaluation 
+- [ ] Complete ChatBot for QA generation
+
 
 ### Acknowledgements
 
