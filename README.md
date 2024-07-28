@@ -1,6 +1,5 @@
 ## NewsQA: News Dataset for QA Generation
 [![Build Status](https://img.shields.io/github/actions/workflow/status/faizan1234567/QALLM/build.yml)](https://github.com/faizan1234567/QALLM/actions)
-<!-- ![CI](https://github.com/your-username/your-repo/workflows/CI/badge.svg) -->
 [![License](https://img.shields.io/github/license/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/blob/main/LICENSE)
 [![Language](https://img.shields.io/github/languages/top/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM)
 [![Contributors](https://img.shields.io/github/contributors/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/graphs/contributors)
