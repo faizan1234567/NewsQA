@@ -130,6 +130,9 @@ And there is a ```run_qa_llm_repo.ipynb``` under ```notebooks``` directory to in
 
 if you find the dataset useful for fine-tuning, research, and development purposes, please star & cite the repo:
 
+### Contributors
+Muhammad Faizan and Sana Zafar
+
 ```latex
 @misc{QALLM,
     title={NewsQA: News Dataset for QA Generation},
