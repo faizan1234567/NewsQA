@@ -129,12 +129,12 @@ python qa_generator.py --model T5-small --cfg cfg/qa_generator.yaml
 
 And there is a ```run_qa_llm_repo.ipynb``` under ```notebooks``` directory to install and run the QA on google colab, kaggle, Gradient, or local machine with GPU. 
 
-if you find the dataset useful for fine-tuning, research, and development purposes, please consider citing the repo:
+if you find the dataset useful for fine-tuning, research, and development purposes, please star & cite the repo:
 
 ```latex
 @misc{QALLM,
     title={NewsQA: News Dataset for QA Generation},
-    author={Muhammad Faizan},
+    authors={Muhammad Faizan, Sana Zafar, and Laiba},
     howpublished = {\url{https://github.com/faizan1234567/QALLM}},
     year={2024}
 }
