@@ -27,4 +27,4 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run qa_generation.py
-      run: python qa_generation.py
+      run: python qa_generator.py
