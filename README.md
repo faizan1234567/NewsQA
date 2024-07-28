@@ -1,5 +1,6 @@
 ## NewsQA: News Dataset for QA Generation
 [![Build Status](https://img.shields.io/github/actions/workflow/status/faizan1234567/QALLM/build.yml)](https://github.com/faizan1234567/QALLM/actions)
+<!-- ![CI](https://github.com/your-username/your-repo/workflows/CI/badge.svg) -->
 [![License](https://img.shields.io/github/license/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/blob/main/LICENSE)
 [![Language](https://img.shields.io/github/languages/top/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM)
 [![Contributors](https://img.shields.io/github/contributors/faizan1234567/QALLM)](https://github.com/faizan1234567/QALLM/graphs/contributors)
@@ -7,7 +8,6 @@
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/faizan1234567/QALLM/blob/main/notebooks/run_qa_llm_repo.ipynb)
 [![Open in Kaggle](https://kaggle.com/static/images/open-in-kaggle.svg)](https://kaggle.com/kernels/welcome?src=https://github.com/faizan1234567/QALLM/blob/main/notebooks/run_qa_llm_repo.ipynb)
 [![Open in Gradient](https://assets.paperspace.io/img/gradient-badge.svg)](https://console.paperspace.com/github/faizan1234567/QALLM/blob/main/notebooks/run_qa_llm_repo.ipynb)
-
 
 
 This repository contains a large dataset of news articles scraped from various Pakistani news websites. The dataset covers diverse categories including:
@@ -134,7 +134,7 @@ if you find the dataset useful for fine-tuning, research, and development purpos
 ```latex
 @misc{QALLM,
     title={NewsQA: News Dataset for QA Generation},
-    authors={Muhammad Faizan, Sana Zafar, and Laiba},
+    authors={Muhammad Faizan and Sana Zafar},
     howpublished = {\url{https://github.com/faizan1234567/QALLM}},
     year={2024}
 }
