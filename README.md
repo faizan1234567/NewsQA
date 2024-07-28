@@ -126,3 +126,29 @@ and run QA generation
 ```bash
 python qa_generator.py --model T5-small --cfg cfg/qa_generator.yaml
 ```
+
+And there is a ```run_qa_llm_repo.ipynb``` under ```notebooks``` directory to install and run the QA on google colab, kaggle, Gradient, or local machine with GPU. 
+
+if you find the dataset useful for fine-tuning, research, and development purposes, please consider citing the repo:
+
+```latex
+@misc{QALLM,
+    title={NewsQA: News Dataset for QA Generation},
+    author={Muhammad Faizan},
+    howpublished = {\url{https://github.com/faizan1234567/QALLM}},
+    year={2024}
+}
+```
+
+
+### Acknowledgements
+
+[1]. A fast and powerful scraping and web crawling framework. Scrapy. (n.d.). https://scrapy.org/ 
+
+[2]. https://huggingface.co/TheBloke/Llama-2-70B-GGML. (n.d.).
+
+[3]. Ushio, A., Alva-Manchego, F., & Camacho-Collados, J. (2023). An empirical comparison of LM-based question and answer generation methods. arXiv preprint arXiv:2305.17002.
+
+[4]. OpenAI’s GPT-3.5 Turbo, platform.openai.com/docs/models/gpt-3-5-turbo. Accessed 28 July 2024. 
+
+
