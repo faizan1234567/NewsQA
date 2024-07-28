@@ -15,6 +15,7 @@ import json
 import sys
 from pathlib import Path
 import yaml
+import torch
 from cfg import from_dict
 from utils import preprocess_text, post_process_text, process_all_data
 from huggingface_hub import hf_hub_download
@@ -296,6 +297,11 @@ if __name__ == "__main__":
                       help = "configuration file")
   
   opt = parser.parse_args()
+
+  # check GPU
+  device = "cuda" if torch.cuda.is_available() else "cpu"
+  if device != "cuda":
+     logger.info("WARNING: Running with CPU could be slow")
 
   # Init config
   cfg = yaml.safe_load(Path(opt.cfg).open('r'))
