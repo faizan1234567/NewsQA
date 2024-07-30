@@ -4,3 +4,13 @@ huggingface_hub
 langchain-text-splitters
 lmqg
 openai
+# for fine tunning
+transformers
+datasets
+wandb
+rouge_score
+trl
+peft
+accelerate
+bitandbytes
+
