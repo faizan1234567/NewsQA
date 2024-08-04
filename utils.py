@@ -2,6 +2,16 @@ import re
 import os
 import csv
 
+from datasets import load_metric
+from transformers import TrainerCallback, TrainerState, TrainerControl
+import os
+import math
+import json
+
+
+# Load evaluation metrics
+rouge = load_metric("rouge")
+bleu = load_metric("bleu")
 
 
 def preprocess_text(text):
@@ -147,57 +157,125 @@ def post_process_text(llm_completion):
         writer = csv.writer(file)
         writer.writerows(qa_pairs)
 
-def qa_generator(text):
-  '''
-  takes the paragraph text and generate model completion and then post process the completion
-  to generate QA data
+def get_response_text(text):
+  """
+  This function extracts the text within the ### Response: section, stopping at the next section marker (###).
 
-  parameters
-  ----------
-  text: str
+  Args:
+      text: The text containing the response section.
 
-  return
-  ------
-  None
-  '''
+  Returns:
+      The extracted response text, or an empty string if no response is found.
+  """
+  lines = text.splitlines()
+  response_start = None
 
-  # prompt
-  prompt=f'''SYSTEM: You are a helpful, respectful and honest assistant for QA data acquisition.
-    Generate question and answer pairs using the infromation from the USER text below.
-    Generate your own questions from the context below and then generate answers from the text for each question
-    you generated.
-  '''
-  # complte prompt: text ingested in the prompt
-  prompt_template = prompt + f"\n\nUSER: {text} \n\nASSITANT:"
-  # invoke llm (llama2)
-  generated_text = llama2(prompt_template)
-  # logg model completion for now
-  logger.info(generated_text)
-  # process the completion and write the qa pairs in a csv file
-  post_process_text(generated_text)
+  for i, line in enumerate(lines):
+    if line.startswith("### Response:"):
+      response_start = i + 1
+      break
+
+  if response_start is not None:
+    # Find the next line that starts with "#" (indicating the end of Response)
+    for j in range(response_start, len(lines)):
+      if lines[j].startswith("###"):
+        response_end = j
+        break
+      else:
+        response_end = len(lines)  # Set end to last line if no next section marker
+
+    # Extract the response text between the start and end lines.
+    return "\n".join(lines[response_start:response_end])
+  else:
+    # No response section found.
+    return ""
 
 
-def qag_generator(text):
-  '''
-  generate question answer and store them in a csv file
+def evaluate_model(model, tokenizer, test_dataset, QA_prompt):
+    model.eval()
+    predictions = []
+    references = []
 
-  parameters
-  ----------
-  text: str
-  '''
-  question_answer_pairs = model.generate_qa(text)
-  # logger.info(question_answer_pairs)
+    for example in test_dataset:
+        instruction = example["instruction"]
+        reference = example["output"]
 
-  # write to csv file
-  file_path = 'qa_pairs_new_t5_small.csv'
+        inputs = tokenizer([
+        QA_prompt.format(
+        f"{instruction}", # instruction
+        "")
+          ], return_tensors = "pt").to("cuda")
 
-  if not os.path.exists(file_path):
-      with open(file_path, 'w', newline='', encoding='utf-8') as file:
-          writer = csv.writer(file)
-          # Write header row
-          writer.writerow(['Question', 'Answer'])
 
-  # append data
-  with open(file_path, 'a', newline='', encoding='utf-8') as file:
-      writer = csv.writer(file)
-      writer.writerows(question_answer_pairs)
+        outputs = model.generate(**inputs, max_new_tokens = 64, use_cache = True, pad_token_id=tokenizer.eos_token_id)
+
+        prediction = tokenizer.batch_decode(outputs, skip_special_tokens = True)[0] #tokenizer.batch_decode(gen_tokens[:, input_ids.shape[1]:])[0]
+        prediction = get_response_text(prediction)
+        predictions.append(prediction)
+        references.append(reference)
+    # calculate scores now
+    rouge_result = rouge.compute(predictions=predictions, references=references)
+    bleu_result = bleu.compute(predictions=[pred.split() for pred in predictions],
+                               references=[[ref.split()] for ref in references])
+
+
+    results = {
+        "rouge": rouge_result,
+        "bleu": bleu_result
+    }
+
+    return results
+
+
+class CustomCheckpointCallback(TrainerCallback):
+    def __init__(self, examples_interval,  test_dataset):
+        self.examples_interval = examples_interval  # Number of examples between checkpoints
+        self.test_dataset = test_dataset
+        # self.tokenizer = tokenizer
+        self.steps_to_save = []  # To be calculated based on batch size and accumulation steps
+        self.results = []
+
+    def on_train_begin(self, args, state, control, **kwargs):
+        # Calculate the steps at which to save checkpoints based on examples
+        max_examples = state.max_steps * (args.per_device_train_batch_size * args.gradient_accumulation_steps)
+        self.steps_to_save = [math.ceil(i / (args.per_device_train_batch_size * args.gradient_accumulation_steps))
+                              for i in range(self.examples_interval, max_examples + 1, self.examples_interval)]
+
+    def on_step_end(self, args, state: TrainerState, control: TrainerControl, **kwargs):
+        if state.global_step in self.steps_to_save:
+            control.should_save = True  # Save checkpoint at this step
+        else:
+            control.should_save = False  # Do not save checkpoint at this step
+
+        return control
+
+    def on_save(self, args, state, control, **kwargs):
+        # Rename the checkpoint directory after saving
+        step = state.global_step
+        if step in self.steps_to_save:
+            # Calculate the example count based on the current step
+            example_count = step * (args.per_device_train_batch_size * args.gradient_accumulation_steps)
+            checkpoint_dir = os.path.join(args.output_dir, f"checkpoint-{state.global_step}")
+            new_checkpoint_dir = os.path.join(args.output_dir, f"checkpoint-{example_count}")
+
+            if os.path.exists(checkpoint_dir):
+                os.rename(checkpoint_dir, new_checkpoint_dir)
+                print(f"Checkpoint saved and renamed to: {new_checkpoint_dir}")
+
+                # Evaluate the current state of the model
+                results = evaluate_model(kwargs['model'], kwargs['tokenizer'], self.test_dataset)
+                print(f"Evaluation results for checkpoint-{example_count}: {results}")
+
+                # Store results with checkpoint name
+                self.results.append({
+                    "checkpoint": f"checkpoint-{example_count}",
+                    "results": results
+                })
+
+    def on_train_end(self, args, state, control, **kwargs):
+        # Save results to a file or return them as needed
+        results_file = os.path.join(args.output_dir, "evaluation_results.json")
+        with open(results_file, "w") as f:
+            json.dump(self.results, f, indent=4)
+        print(f"Saved evaluation results to {results_file}")
+
