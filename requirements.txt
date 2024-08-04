@@ -4,6 +4,7 @@ huggingface_hub
 langchain-text-splitters
 lmqg
 openai
+
 # for fine tunning
 transformers
 datasets
